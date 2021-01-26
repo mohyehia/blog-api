@@ -99,3 +99,40 @@ exports.login = (req, res, next) => {
             res.status(500).json({error: err});
         });
 }
+
+exports.update = (req, res, next) => {
+    const {userData} = req;
+    User.findOneAndUpdate({_id: userData.id}, {
+        $set:
+            {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                phone: req.body.phone,
+                mobile: req.body.mobile,
+                job: req.body.job,
+                address: req.body.address
+            }
+    }, {upsert: true, new: true})
+        .then((doc, err) => {
+            if(err){
+                res.status(500).json({error: err});
+            }
+            res.status(200).json({
+                message: 'User profile updated successfully!',
+                user: {
+                    id: doc._id,
+                    email: doc.email,
+                    firstName: doc.firstName,
+                    lastName: doc.lastName,
+                    address: doc.address,
+                    job: doc.job,
+                    mobile: doc.mobile,
+                    phone: doc.phone
+                }
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({error: err});
+        });
+}
