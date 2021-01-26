@@ -6,6 +6,8 @@ const cors = require('cors');
 const path = require('path');
 const app = express();
 
+const userRoutes = require('../src/route/user.route');
+
 // __________________ DB Config __________________ //
 mongoose.connect(process.env.MONGO_DB_URL, {
     useNewUrlParser: true,
@@ -27,7 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // __________________ Routes __________________ //
-// app.use('/users', userRoutes);
+app.use('/users', userRoutes);
 // app.use('/expenses', expenseRoutes);
 module.exports = app;
 
