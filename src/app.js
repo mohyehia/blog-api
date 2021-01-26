@@ -47,3 +47,6 @@ if (process.env.NODE_ENV === 'production') {
         );
     })
 }
+
+// __________________ Images __________________ //
+app.use(express.static('public'));

@@ -10,6 +10,9 @@ const PostSchema = mongoose.Schema({
     slug: {
         type: String, required: true
     },
+    photo: {
+        type: String, required: true
+    },
     category: {
         type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true
     },

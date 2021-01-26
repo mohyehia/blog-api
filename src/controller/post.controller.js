@@ -17,6 +17,7 @@ exports.retrieveUserPosts = (req, res, next) => {
                         content: post.content,
                         slug: post.slug,
                         category: post.category,
+                        photo: post.photo,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:5000/posts/' + post._id
@@ -32,11 +33,13 @@ exports.retrieveUserPosts = (req, res, next) => {
 
 exports.createNewPost = (req, res, next) => {
     const slug = req.body.title.trim().toLowerCase().replace(/\s+/g, '-');
+    const {file} = req;
     const post = new Post({
         _id: new mongoose.Types.ObjectId(),
         title: req.body.title,
         slug: slug,
         content: req.body.content,
+        photo: file.path,
         category: req.body.category,
         user: req.userData.id
     });
@@ -50,6 +53,7 @@ exports.createNewPost = (req, res, next) => {
                 content: po.content,
                 slug: po.slug,
                 category: po.category,
+                photo: po.photo,
                 request: {
                     type: 'GET',
                     url: 'http://localhost:5000/posts/' + po._id
