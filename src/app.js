@@ -7,6 +7,9 @@ const path = require('path');
 const app = express();
 
 const userRoutes = require('../src/route/user.route');
+const categoryRoutes = require('../src/route/category.route');
+const postRoutes = require('../src/route/post.route');
+const commentRoutes = require('../src/route/comment.route');
 
 // __________________ DB Config __________________ //
 mongoose.connect(process.env.MONGO_DB_URL, {
@@ -30,7 +33,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // __________________ Routes __________________ //
 app.use('/users', userRoutes);
-// app.use('/expenses', expenseRoutes);
+app.use('/categories', categoryRoutes);
+app.use('/posts', postRoutes);
+app.use('/comments', commentRoutes);
 module.exports = app;
 
 // __________________ Static Files __________________ //
