@@ -6,6 +6,6 @@ const checkAuth = require('../middleware/check-auth');
 
 router.post('/signup', userController.signup);
 router.post('/login', userController.login);
-router.post('/update', checkAuth, userController.update);
+router.put('/update', checkAuth, userController.update);
 
 module.exports = router;
