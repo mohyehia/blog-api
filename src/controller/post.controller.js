@@ -39,7 +39,7 @@ exports.createNewPost = (req, res, next) => {
         title: req.body.title,
         slug: slug,
         content: req.body.content,
-        photo: file.path,
+        photo: file.filename,
         category: req.body.category,
         user: req.userData.id
     });
