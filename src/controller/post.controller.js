@@ -7,6 +7,7 @@ exports.retrieveUserPosts = (req, res, next) => {
         user: userData.id
     };
     Post.find(query)
+        .sort({createdAt: 'desc'})
         .then(posts => {
             res.status(200).json({
                 count: posts.length,
@@ -18,6 +19,7 @@ exports.retrieveUserPosts = (req, res, next) => {
                         slug: post.slug,
                         category: post.category,
                         photo: post.photo,
+                        createdAt: post.createdAt,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:5000/posts/' + post._id
