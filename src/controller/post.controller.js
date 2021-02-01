@@ -75,8 +75,10 @@ exports.retrievePostBySlug = (req, res, next) =>{
         slug: req.params.slug
     };
     Post.findOne(query)
+        .populate('user', '_id firstName lastName')
         .then(post => {
             Comment.find({post: post._id})
+                .populate('user', 'firstName lastName')
                 .then(comments =>{
                     res.status(200).json({
                         id: post._id,
@@ -86,6 +88,7 @@ exports.retrievePostBySlug = (req, res, next) =>{
                         category: post.category,
                         photo: post.photo,
                         createdAt: post.createdAt,
+                        user: post.user,
                         comments: comments.map(comment => {
                             return {
                                 id: comment._id,
