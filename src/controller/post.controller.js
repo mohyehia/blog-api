@@ -34,7 +34,7 @@ exports.retrieveUserPosts = (req, res, next) => {
 }
 
 exports.createNewPost = (req, res, next) => {
-    const slug = req.body.title.trim().toLowerCase().replace(/\s+/g, '-');
+    const slug = req.body.title.trim().toLowerCase().replace(/\s+/g, '-') + '-' + Number(new Date());
     const {file} = req;
     const post = new Post({
         _id: new mongoose.Types.ObjectId(),
