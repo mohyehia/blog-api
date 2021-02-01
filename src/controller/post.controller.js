@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Post = require('../entity/post.entity');
+const Comment = require('../entity/comment.entity');
 
 exports.retrieveUserPosts = (req, res, next) => {
     const {userData} = req;
@@ -67,4 +68,39 @@ exports.createNewPost = (req, res, next) => {
             console.error(err);
             res.status(500).json({error: err});
         });
+}
+
+exports.retrievePostBySlug = (req, res, next) =>{
+    const query = {
+        slug: req.params.slug
+    };
+    Post.findOne(query)
+        .then(post => {
+            Comment.find({post: post._id})
+                .then(comments =>{
+                    res.status(200).json({
+                        id: post._id,
+                        title: post.title,
+                        content: post.content,
+                        slug: post.slug,
+                        category: post.category,
+                        photo: post.photo,
+                        createdAt: post.createdAt,
+                        comments: comments.map(comment => {
+                            return {
+                                id: comment._id,
+                                user: comment.user,
+                                content: comment.content
+                            }
+                        }),
+                        request: {
+                            type: 'GET',
+                            url: 'http://localhost:5000/posts'
+                        }
+                    })
+                })
+        }).catch(err => {
+        console.error(err);
+        res.status(500).json({error: err});
+    });
 }
