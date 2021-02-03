@@ -31,7 +31,7 @@ exports.retrievePostComments = (req, res, next) => {
 }
 
 exports.createNewComment = (req, res, next) => {
-    Post.findById(req.params.postId)
+    Post.findOne({slug: req.params.postSlug})
         .then(post => {
             if (!post) {
                 return res.status(404).json({
@@ -42,7 +42,7 @@ exports.createNewComment = (req, res, next) => {
                 _id: new mongoose.Types.ObjectId(),
                 content: req.body.content,
                 user: req.userData.id,
-                post: req.params.postId
+                post: post._id
             });
             return comment.save()
         })
