@@ -107,3 +107,33 @@ exports.retrievePostBySlug = (req, res, next) =>{
         res.status(500).json({error: err});
     });
 }
+
+exports.retrieveAllPosts = (req, res, next) => {
+    Post.find()
+        .populate('user', '_id firstName lastName')
+        .sort({createdAt: 'desc'})
+        .then(posts => {
+            res.status(200).json({
+                count: posts.length,
+                posts: posts.map(post => {
+                    return {
+                        id: post._id,
+                        title: post.title,
+                        content: post.content,
+                        slug: post.slug,
+                        category: post.category,
+                        photo: post.photo,
+                        createdAt: post.createdAt,
+                        user: post.user,
+                        request: {
+                            type: 'GET',
+                            url: 'http://localhost:5000/posts/' + post._id
+                        }
+                    }
+                })
+            });
+        }).catch(err => {
+        console.error(err);
+        res.status(500).json({error: err});
+    });
+}
